@@ -1,3 +1,2 @@
 # Exclude specific PDF files
-deeplearning.pdf
-artificialintelligence.pdf
+Books/*.pdf 
