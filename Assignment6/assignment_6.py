@@ -1,7 +1,6 @@
-import keras
-from keras import layers
-from keras.datasets import mnist
-import numpy as np
+import tensorflow as tf
+from tensorflow import keras
+
 
 def load_mnist():
     (x_train, y_train), (x_test, y_test) = keras.datasets.mnist.load_data()
@@ -40,6 +39,8 @@ def build_model(cnn=True):
 
         # Add convolutional layer - filters is depth of layer output and kernel_size the convolution window
         model.add(keras.layers.Conv2D(filters=8, kernel_size=(2, 2), activation="relu", padding="same"))
+        model.add(keras.layers.Conv2D(filters=8, kernel_size=(2, 2), activation="relu", padding="same"))
+
         # Add pooling layer to downscale (MaxPooling downscales by returning the maximum value in each input window)
         model.add(keras.layers.MaxPooling2D(pool_size=(2, 2)))
         # TODO add more layers and/or experiment with different number of filters, different kernel_size or pool_size
@@ -58,11 +59,11 @@ def build_model(cnn=True):
 if __name__ == "__main__":
 
     # TODO try different values for epochs and learning_rate to improve model performance
-    epochs = 1
-    learning_rate = 2.0
+    epochs = 5
+    learning_rate = 0.1
 
     x_train, y_train, x_test, y_test = load_mnist()
-    model = build_model(cnn=False)  # set cnn=True for convolutional network, false for MLP
+    model = build_model(cnn=True)  # set cnn=True for convolutional network, false for MLP
 
     # Compile model - Stochastic gradient descent is chosen for the optimizer and categorical cross entropy for the
     # loss calculation
@@ -77,3 +78,4 @@ if __name__ == "__main__":
 
     # Evaluate the model on test data
     test_loss, test_acc = model.evaluate(x_test, y_test, verbose=1)
+    print(f"Test accuracy: {test_acc:.4f}")
